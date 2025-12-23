@@ -2,51 +2,50 @@ const input = document.getElementById("userInput");
 const submitBtn = document.getElementById("submitBtn");
 const container = document.getElementById("displayContainer");
 
-// 1. LOAD: Runs every time the page is opened or refreshed
+// --- STEP A: LOAD DATA WHEN PAGE OPENS ---
 window.addEventListener("DOMContentLoaded", () => {
-    const rawData = localStorage.getItem("myPrivateTodos");
-    if (rawData) {
-        const savedTodos = JSON.parse(rawData);
-        savedTodos.forEach(todo => {
-            createTodoElement(todo.text, todo.completed);
+    const data = localStorage.getItem("myTodoSession");
+    if (data) {
+        const savedTasks = JSON.parse(data);
+        savedTasks.forEach(task => {
+            createTodoElement(task.text, task.completed);
         });
     }
 });
 
-// 2. SAVE: Converts the list on screen into a text string for the browser memory
-function saveToLocalStorage() {
-    const todos = [];
+// --- STEP B: SAVE DATA TO LOCAL STORAGE ---
+function saveSession() {
+    const tasks = [];
     document.querySelectorAll(".item").forEach(item => {
-        const text = item.querySelector("span").innerText;
-        const isDone = item.querySelector(".task-checkbox").checked;
-        todos.push({ text: text, completed: isDone });
+        tasks.push({
+            text: item.querySelector("span").innerText,
+            completed: item.querySelector(".task-checkbox").checked
+        });
     });
-    localStorage.setItem("myPrivateTodos", JSON.stringify(todos));
+    localStorage.setItem("myTodoSession", JSON.stringify(tasks));
 }
 
-// 3. UI BUILDER: Creates the HTML for each todo
-function createTodoElement(text, isCompleted = false) {
+// --- STEP C: UI ELEMENT BUILDER ---
+function createTodoElement(text, isDone = false) {
     const newDiv = document.createElement("div");
     newDiv.classList.add("item");
 
     const textSpan = document.createElement("span");
     textSpan.innerText = text;
-    
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = isCompleted;
-    checkbox.classList.add("task-checkbox");
-
-    // Apply styles if the task was already completed
-    if (isCompleted) {
+    if (isDone) {
         textSpan.style.textDecoration = "line-through";
-        textSpan.style.opacity = "0.6";
+        textSpan.style.opacity = "0.5";
     }
 
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = isDone;
+    checkbox.classList.add("task-checkbox");
+    
     checkbox.addEventListener("change", () => {
         textSpan.style.textDecoration = checkbox.checked ? "line-through" : "none";
-        textSpan.style.opacity = checkbox.checked ? "0.6" : "1";
-        saveToLocalStorage(); 
+        textSpan.style.opacity = checkbox.checked ? "0.5" : "1";
+        saveSession(); // Save the checkmark state
     });
 
     const deleteBtn = document.createElement("button");
@@ -54,7 +53,7 @@ function createTodoElement(text, isCompleted = false) {
     deleteBtn.classList.add("deleteBtn");
     deleteBtn.addEventListener("click", () => {
         newDiv.remove();
-        saveToLocalStorage();
+        saveSession(); // Save the deletion
     });
 
     newDiv.appendChild(textSpan);
@@ -63,10 +62,9 @@ function createTodoElement(text, isCompleted = false) {
     container.appendChild(newDiv);
 }
 
-// 4. INTERACTION: When user clicks Submit
 submitBtn.addEventListener("click", () => {
     if (input.value.trim() === "") return;
     createTodoElement(input.value);
-    saveToLocalStorage(); 
+    saveSession(); // Save the new item
     input.value = "";
 });
