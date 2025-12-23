@@ -31,6 +31,7 @@ body{
     align-items: center;
     display:flex;
     flex-wrap:wrap;
+    box-sizing:border-box;
     
     
 }
@@ -178,4 +179,5 @@ body{
     margin-top: 20px;
 
 }
+
 
