@@ -153,7 +153,7 @@ body{
 
 @media (max-width: 600px) {
     #displayContainer {
-        width: 100%;
+        width: 70%;
         border-radius: 0; /* Full width look on mobile */
     }
     
@@ -179,5 +179,6 @@ body{
     margin-top: 20px;
 
 }
+
 
 
