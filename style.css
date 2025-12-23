@@ -20,6 +20,9 @@ body{
     justify-content: center;
     align-items: center;
     background: #5465ff;
+    width:100%;
+    overflow-x:hidden;
+    
     
     
 }
@@ -175,3 +178,4 @@ body{
     margin-top: 20px;
 
 }
+
