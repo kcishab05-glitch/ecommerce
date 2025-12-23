@@ -2,77 +2,71 @@ const input = document.getElementById("userInput");
 const submitBtn = document.getElementById("submitBtn");
 const container = document.getElementById("displayContainer");
 
-// --- NEW: Load saved todos from this browser's memory on startup ---
-window.addEventListener("load", () => {
-    const savedTodos = JSON.parse(localStorage.getItem("myPrivateTodos")) || [];
-    savedTodos.forEach(todo => {
-        createTodoElement(todo.text, todo.completed);
-    });
+// 1. LOAD: Runs every time the page is opened or refreshed
+window.addEventListener("DOMContentLoaded", () => {
+    const rawData = localStorage.getItem("myPrivateTodos");
+    if (rawData) {
+        const savedTodos = JSON.parse(rawData);
+        savedTodos.forEach(todo => {
+            createTodoElement(todo.text, todo.completed);
+        });
+    }
 });
 
-// --- NEW: Function to save the current state to localStorage ---
+// 2. SAVE: Converts the list on screen into a text string for the browser memory
 function saveToLocalStorage() {
     const todos = [];
     document.querySelectorAll(".item").forEach(item => {
-        todos.push({
-            text: item.querySelector("span").innerText,
-            completed: item.querySelector(".task-checkbox").checked
-        });
+        const text = item.querySelector("span").innerText;
+        const isDone = item.querySelector(".task-checkbox").checked;
+        todos.push({ text: text, completed: isDone });
     });
     localStorage.setItem("myPrivateTodos", JSON.stringify(todos));
 }
 
-// Function to build the UI element (Logic moved here to reuse for loading)
+// 3. UI BUILDER: Creates the HTML for each todo
 function createTodoElement(text, isCompleted = false) {
     const newDiv = document.createElement("div");
     newDiv.classList.add("item");
 
     const textSpan = document.createElement("span");
     textSpan.innerText = text;
-    if (isCompleted) {
-        textSpan.style.textDecoration = "line-through";
-        textSpan.style.color = "#55a630";
-        textSpan.style.opacity = "0.6";
-    }
-    newDiv.appendChild(textSpan);
-
+    
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = isCompleted;
     checkbox.classList.add("task-checkbox");
-    newDiv.appendChild(checkbox);
+
+    // Apply styles if the task was already completed
+    if (isCompleted) {
+        textSpan.style.textDecoration = "line-through";
+        textSpan.style.opacity = "0.6";
+    }
 
     checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-            textSpan.style.textDecoration = "line-through";
-            textSpan.style.color = "#55a630";
-            textSpan.style.opacity = "0.6";
-        } else {
-            textSpan.style.textDecoration = "none";
-            textSpan.style.color = "black";
-            textSpan.style.opacity = "1";
-        }
-        saveToLocalStorage(); // Save change
+        textSpan.style.textDecoration = checkbox.checked ? "line-through" : "none";
+        textSpan.style.opacity = checkbox.checked ? "0.6" : "1";
+        saveToLocalStorage(); 
     });
 
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
     deleteBtn.classList.add("deleteBtn");
-    newDiv.appendChild(deleteBtn);
-
     deleteBtn.addEventListener("click", () => {
-        container.removeChild(newDiv);
-        saveToLocalStorage(); // Save change
+        newDiv.remove();
+        saveToLocalStorage();
     });
 
+    newDiv.appendChild(textSpan);
+    newDiv.appendChild(checkbox);
+    newDiv.appendChild(deleteBtn);
     container.appendChild(newDiv);
 }
 
+// 4. INTERACTION: When user clicks Submit
 submitBtn.addEventListener("click", () => {
     if (input.value.trim() === "") return;
-    
     createTodoElement(input.value);
-    saveToLocalStorage(); // Save the new todo
+    saveToLocalStorage(); 
     input.value = "";
 });
-    
