@@ -1,0 +1,170 @@
+input[type=text]::placeholder{
+    color: gray;
+}
+
+
+input[type=text]{
+    background: transparent ;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid black;
+    color: #BFD7FF;
+    font-size: 30px;
+    width: 400px;
+    text-align: center;
+    margin-left: 80px;
+    
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #5465ff;
+    
+    
+}
+.container{
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+#submitBtn{
+    margin-top: 20px;
+    width: 80px;
+    height: 30px;
+    border: none;
+    background: #9BB1FF;
+    color:#E2FDFF;
+    font-size: 20px;
+    cursor: pointer;
+
+}
+#displayContainer{
+    margin-top: 20px;
+    width: 95%;
+    min-height: 450px;
+    background: #9BB1FF;
+    border-radius: 10px;
+    padding: 10px;
+    color: black;
+    font-size: 18px;
+    overflow-y: auto;
+    max-height: 80vh;
+    max-width: 700px;
+   
+    
+}
+#displayContainer h4{
+    text-align: center;
+    color: #000000;
+    font-weight: bolder;
+    border-bottom: 2px solid black
+
+}
+#displayContainer svg{
+    width: 30px;
+    height: 30px;
+    fill: #000000;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+.deleteBtn{
+    cursor: pointer;
+    border-radius: 5px;
+    background: #9BB1FF ;
+     color:red;
+     border: none;
+        font-size: 16px;
+        font-weight: bolder;
+}
+.task-text{
+    display: inline-block;
+    width: 600px;
+    word-wrap: break-word;
+    vertical-align: middle;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+}
+
+    
+#displayContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#displayContainer::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
+#displayContainer::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bolder;
+    font-size: 40px;
+}
+
+.item span {
+    flex-grow: 1; /* This pushes the buttons to the right */
+    text-align: left;
+}
+/* style.css */
+
+
+
+
+/* Add this to style.css */
+/* style.css */
+.task-checkbox {
+    width: 30px; /* Made slightly larger for better visibility */
+    height: 30px;
+    cursor: pointer;
+    accent-color: limegreen; /* Modern way to turn the checked box limegreen */
+    margin-right: 15px;
+    vertical-align: middle;
+    outline: none;
+}
+
+/* Optional: Add a limegreen border on hover for a better feel */
+.task-checkbox:hover {
+    outline: 2px solid limegreen;
+}
+/* style.css */
+
+@media (max-width: 600px) {
+    #displayContainer {
+        width: 100%;
+        border-radius: 0; /* Full width look on mobile */
+    }
+    
+    .item {
+        font-size: 1rem;
+    }
+    
+    input[type=text] {
+        font-size: 20px;
+    }
+    
+    #submitBtn {
+        width: 60px;
+        font-size: 16px;
+    }
+}
+.footer {
+    width: 95%;
+    max-width: 700px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;        /* Adds space between input and button */
+    margin-top: 20px;
+}
